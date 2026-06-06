@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Headstrong Haven</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0f1f3d;
+    --navy-mid: #1a3056;
+    --teal: #1D9E75;
+    --teal-light: #E1F5EE;
+    --teal-dark: #0F6E56;
+    --cream: #faf8f4;
+    --warm-white: #ffffff;
+    --text-main: #0f1f3d;
+    --text-muted: #4a5568;
+    --text-light: #718096;
+    --border: rgba(15,31,61,0.1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-main);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.25rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(250,248,244,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: -0.01em;
+  }
+
+  .nav-logo span { color: var(--teal); }
+
+  .nav-cta {
+    background: var(--navy);
+    color: white;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .nav-cta:hover { background: var(--navy-mid); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 8rem 2rem 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    right: -15%;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(29,158,117,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -5%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(15,31,61,0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--teal-light);
+    color: var(--teal-dark);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--teal);
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    max-width: 800px;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.6s ease 0.1s both;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--teal);
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    animation: fadeUp 0.6s ease 0.2s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeUp 0.6s ease 0.3s both;
+  }
+
+  .btn-primary {
+    background: var(--navy);
+    color: white;
+    border: none;
+    padding: 0.9rem 2rem;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-primary:hover { background: var(--navy-mid); transform: translateY(-1px); }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--navy);
+    border: 1.5px solid var(--navy);
+    padding: 0.9rem 2rem;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+
+  .btn-secondary:hover { background: rgba(15,31,61,0.05); transform: translateY(-1px); }
+
+  /* TRUTH STRIP */
+  .truth-strip {
+    background: var(--navy);
+    color: white;
+    padding: 1.25rem 2rem;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+  }
+
+  .truth-strip strong { font-weight: 500; color: #9FE1CB; }
+
+  /* SECTION */
+  section {
+    padding: 6rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    margin-bottom: 1rem;
+  }
+
+  .section-intro {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 3.5rem;
+  }
+
+  /* HOW IT WORKS */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .step {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .step:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(15,31,61,0.08);
+  }
+
+  .step-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--teal-light);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .step h3 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--navy);
+    margin-bottom: 0.75rem;
+  }
+
+  .step p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  /* WHY IT MATTERS */
+  .why-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  @media (max-width: 700px) { .why-grid { grid-template-columns: 1fr; } }
+
+  .stat-block {
+    background: var(--navy);
+    color: white;
+    border-radius: 20px;
+    padding: 3rem;
+  }
+
+  .stat {
+    margin-bottom: 2.5rem;
+  }
+
+  .stat:last-child { margin-bottom: 0; }
+
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #9FE1CB;
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-desc {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.7);
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .why-text h2 { margin-bottom: 1.25rem; }
+
+  .why-text p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+    font-weight: 300;
+    margin-bottom: 1.25rem;
+  }
+
+  /* WAITLIST */
+  .waitlist-section {
+    background: var(--teal-light);
+    border-radius: 24px;
+    padding: 4rem 3rem;
+    text-align: center;
+    margin: 0 2rem 6rem;
+    max-width: 1100px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .waitlist-section h2 { margin-bottom: 1rem; }
+
+  .waitlist-section p {
+    font-size: 1.05rem;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin: 0 auto 2.5rem;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .waitlist-form {
+    display: flex;
+    gap: 0.75rem;
+    max-width: 480px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .waitlist-form input {
+    flex: 1;
+    min-width: 220px;
+    padding: 0.9rem 1.25rem;
+    border: 1.5px solid var(--border);
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    background: white;
+    color: var(--navy);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .waitlist-form input:focus { border-color: var(--teal); }
+  .waitlist-form input::placeholder { color: var(--text-light); }
+
+  .waitlist-form button {
+    background: var(--teal);
+    color: white;
+    border: none;
+    padding: 0.9rem 1.75rem;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+
+  .waitlist-form button:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+  .waitlist-note {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+    color: var(--text-light);
+  }
+
+  /* ACCESSIBILITY STATEMENT */
+  .access-bar {
+    background: white;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .access-bar p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  .access-bar strong { font-weight: 500; color: var(--navy); }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,0.6);
+    text-align: center;
+    padding: 2.5rem 2rem;
+    font-size: 0.875rem;
+    font-weight: 300;
+  }
+
+  footer strong { color: rgba(255,255,255,0.9); font-weight: 500; }
+  footer a { color: #9FE1CB; text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ACCESSIBILITY */
+  :focus-visible {
+    outline: 3px solid var(--teal);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 1rem 1.25rem; }
+    section { padding: 4rem 1.25rem; }
+    .waitlist-section { padding: 2.5rem 1.5rem; margin: 0 1rem 4rem; }
+    .stat-block { padding: 2rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Skip to main content for screen readers -->
+<a href="#main" style="position:absolute;left:-999px;top:auto;width:1px;height:1px;overflow:hidden;z-index:999;background:var(--navy);color:white;padding:0.5rem 1rem;border-radius:0 0 8px 0;font-family:'DM Sans',sans-serif" onfocus="this.style.left='0';this.style.width='auto';this.style.height='auto'" onblur="this.style.left='-999px';this.style.width='1px';this.style.height='1px'">Skip to main content</a>
+
+<!-- NAV -->
+<nav role="navigation" aria-label="Main navigation">
+  <div class="nav-logo">Headstrong <span>Haven</span></div>
+  <a href="#waitlist" class="nav-cta">Join Waitlist</a>
+</nav>
+
+<!-- HERO -->
+<main id="main">
+  <div class="hero" role="banner">
+    <div class="hero-badge" aria-label="Status: Launching soon">Launching soon · Cleveland, OH</div>
+    <h1>Finding help shouldn't feel like a <em>second job</em></h1>
+    <p class="hero-sub">Most people who need mental health support spend weeks searching, get lost in insurance confusion, and give up before they ever talk to anyone. We fix that.</p>
+    <div class="hero-actions">
+      <a href="#waitlist" class="btn-primary">Join the Waitlist</a>
+      <a href="#how-it-works" class="btn-secondary">How it works</a>
+    </div>
+  </div>
+
+  <!-- TRUTH STRIP -->
+  <div class="truth-strip" role="complementary" aria-label="Key fact">
+    <strong>1 in 5 Americans</strong> needs mental health support. Most never get it — not because they don't want help, but because the system makes it too hard to find.
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works" aria-labelledby="hiw-heading">
+    <p class="section-label" aria-hidden="true">The process</p>
+    <h2 id="hiw-heading">Three steps to the right support</h2>
+    <p class="section-intro">No endless directories. No confusing insurance calls. Just a clear path to someone who can actually help.</p>
+
+    <div class="steps" role="list">
+      <div class="step" role="listitem">
+        <div class="step-number" aria-hidden="true">01</div>
+        <h3>Tell us what you need</h3>
+        <p>Fill out a short intake form — no jargon, no pressure, no commitment. Just honest questions about what you're looking for and what matters to you.</p>
+      </div>
+      <div class="step" role="listitem">
+        <div class="step-number" aria-hidden="true">02</div>
+        <h3>We do the matching</h3>
+        <p>Our team personally reviews your needs and finds providers that fit — your goals, your budget, your schedule, and your insurance situation.</p>
+      </div>
+      <div class="step" role="listitem">
+        <div class="step-number" aria-hidden="true">03</div>
+        <h3>You make the call</h3>
+        <p>We send you a warm introduction to the right provider. The hardest part is making the call — not finding who to call. We make sure you get there.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY IT MATTERS -->
+  <section aria-labelledby="why-heading">
+    <div class="why-grid">
+      <div class="stat-block" role="region" aria-label="Key statistics">
+        <div class="stat">
+          <div class="stat-num" aria-label="57 percent">57%</div>
+          <p class="stat-desc">of people who sought therapy gave up during the search process before ever booking an appointment</p>
+        </div>
+        <div class="stat">
+          <div class="stat-num" aria-label="3 to 6 weeks">3–6 wks</div>
+          <p class="stat-desc">average time people spend searching for a mental health provider on their own</p>
+        </div>
+        <div class="stat">
+          <div class="stat-num" aria-label="1 in 3">1 in 3</div>
+          <p class="stat-desc">therapists listed in insurance directories aren't actually accepting new patients</p>
+        </div>
+      </div>
+
+      <div class="why-text">
+        <p class="section-label" aria-hidden="true">Why we exist</p>
+        <h2 id="why-heading">The gap between needing help and getting it is a system problem</h2>
+        <p>Insurance directories are outdated. Therapist websites are confusing. Wait times are weeks long. And when you're already struggling, navigating all of that can feel impossible.</p>
+        <p>Headstrong Haven exists to close that gap — not with an algorithm, but with real, personal guidance that meets people where they are.</p>
+        <a href="#waitlist" class="btn-primary">Get early access</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAITLIST -->
+  <div class="waitlist-section" id="waitlist" role="region" aria-labelledby="waitlist-heading">
+    <p class="section-label" aria-hidden="true">Early access</p>
+    <h2 id="waitlist-heading">Be the first to know</h2>
+    <p>We're launching soon. Join the waitlist and get free concierge matching when we go live — no cost, no commitment.</p>
+
+    <form class="waitlist-form" action="mailto:hello@headstronghaven.com" method="get" enctype="text/plain" aria-label="Waitlist signup form">
+      <label for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">Your email address</label>
+      <input type="email" id="email" name="email" placeholder="Your email address" required autocomplete="email" aria-required="true" />
+      <button type="submit">Join Waitlist</button>
+    </form>
+    <p class="waitlist-note" role="note">No spam, ever. We'll only reach out when we're ready to help.</p>
+  </div>
+
+  <!-- ACCESSIBILITY STATEMENT -->
+  <div class="access-bar" role="complementary" aria-label="Accessibility commitment">
+    <p>♿ <strong>Headstrong Haven is built for everyone.</strong> We are committed to WCAG 2.1 AA accessibility standards — because mental health support should be accessible to all.</p>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer role="contentinfo">
+  <p><strong>Headstrong Haven</strong> &nbsp;·&nbsp; Cleveland, OH &nbsp;·&nbsp; <a href="mailto:hello@headstronghaven.com">hello@headstronghaven.com</a></p>
+  <p style="margin-top:0.75rem">© 2026 Headstrong Haven. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
