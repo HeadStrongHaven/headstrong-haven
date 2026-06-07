@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join as a Provider — Headstrong Haven</title>
+<meta name="description" content="Join the Headstrong Haven provider network and connect with clients who need your support.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --royal: #110266;
+  --violet: #2c0380;
+  --violet-mid: #3d0ab3;
+  --violet-light: #ede8ff;
+  --violet-soft: #f5f2ff;
+  --gold: #c49a3c;
+  --gold-light: #f9f3e3;
+  --cream: #fdf9f4;
+  --text-dark: #0d0a1a;
+  --text-body: #3d3650;
+  --text-muted: #6b6480;
+  --text-light: #9e98b0;
+  --border: rgba(44,3,128,0.12);
+  --border-soft: rgba(44,3,128,0.07);
+  --success: #16a34a;
+  --success-light: #dcfce7;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; font-weight: 300; }
+
+.skip-link { position: absolute; left: -999px; top: auto; width: 1px; height: 1px; overflow: hidden; z-index: 9999; background: var(--royal); color: white; padding: 0.5rem 1.25rem; border-radius: 0 0 8px 0; font-family: 'Jost', sans-serif; font-size: 0.875rem; text-decoration: none; }
+.skip-link:focus { left: 0; width: auto; height: auto; outline: 3px solid var(--gold); outline-offset: 2px; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0.75rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: rgba(253,249,244,0.94); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border-soft); }
+.nav-logo { display: flex; align-items: center; gap: 0.6rem; text-decoration: none; }
+.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 0.875rem; font-weight: 400; color: var(--text-body); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--violet); }
+.nav-cta { background: var(--royal); color: white !important; padding: 0.6rem 1.4rem; border-radius: 100px; font-size: 0.875rem !important; font-weight: 500 !important; }
+.nav-cta:hover { background: var(--violet) !important; }
+@media (max-width: 680px) { .nav-links { display: none; } nav { padding: 1rem 1.5rem; } }
+
+/* HERO */
+.page-hero {
+  background: linear-gradient(135deg, var(--royal) 0%, var(--violet) 100%);
+  padding: 10rem 2.5rem 5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: ''; position: absolute; top: -30%; right: -10%;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: rgba(255,255,255,0.04); pointer-events: none;
+}
+.page-hero-inner { max-width: 680px; margin: 0 auto; position: relative; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9);
+  padding: 0.4rem 1rem; border-radius: 100px;
+  font-size: 0.75rem; font-weight: 500; letter-spacing: 0.08em;
+  text-transform: uppercase; margin-bottom: 1.5rem;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.page-hero h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.5rem, 5vw, 3.8rem);
+  font-weight: 700; line-height: 1.1;
+  letter-spacing: -0.02em; color: white;
+  margin-bottom: 1.25rem;
+}
+.page-hero h1 em { font-style: italic; color: #c9b8ff; }
+.page-hero p {
+  font-size: 1.05rem; color: rgba(255,255,255,0.75);
+  line-height: 1.8; max-width: 520px; margin: 0 auto;
+}
+
+/* BENEFITS STRIP */
+.benefits-strip {
+  background: white;
+  border-bottom: 1px solid var(--border-soft);
+  padding: 2.5rem 2.5rem;
+}
+.benefits-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 2rem; text-align: center;
+}
+.benefit-item { padding: 0 1rem; }
+.benefit-icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--violet-light);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 0.75rem;
+}
+.benefit-icon svg { width: 22px; height: 22px; stroke: var(--violet); fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.benefit-item h3 { font-size: 0.95rem; font-weight: 500; color: var(--royal); margin-bottom: 0.3rem; }
+.benefit-item p { font-size: 0.825rem; color: var(--text-muted); line-height: 1.5; }
+@media (max-width: 600px) { .benefits-inner { grid-template-columns: 1fr; gap: 1.5rem; } }
+
+/* FORM LAYOUT */
+.form-page { max-width: 800px; margin: 0 auto; padding: 5rem 2.5rem 6rem; }
+
+.form-section-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem; font-weight: 700;
+  color: var(--royal); margin-bottom: 0.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid var(--violet-light);
+  margin-top: 2.5rem;
+}
+.form-section-title:first-of-type { margin-top: 0; }
+.form-section-sub { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem; margin-top: 0.4rem; }
+
+.form-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2.5rem;
+  box-shadow: 0 8px 40px rgba(17,2,102,0.06);
+}
+
+.form-field { margin-bottom: 1.25rem; }
+.form-field label { display: block; font-size: 0.82rem; font-weight: 500; color: var(--text-body); margin-bottom: 0.4rem; letter-spacing: 0.02em; }
+.form-field input, .form-field select, .form-field textarea {
+  width: 100%; padding: 0.8rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.9rem; font-weight: 300;
+  color: var(--text-dark); background: var(--cream);
+  outline: none; transition: border-color 0.2s, background 0.2s;
+  appearance: none;
+}
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--violet-mid); background: white; }
+.form-field input::placeholder, .form-field textarea::placeholder { color: var(--text-light); }
+.form-field textarea { resize: vertical; min-height: 80px; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+@media (max-width: 600px) { .form-row, .form-row-3 { grid-template-columns: 1fr; } }
+
+/* Checkbox / Radio groups */
+.check-group { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem; }
+.check-group.inline { flex-direction: row; flex-wrap: wrap; gap: 0.5rem; }
+.check-item {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.6rem 0.9rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  font-size: 0.875rem; color: var(--text-body);
+  background: var(--cream);
+}
+.check-item:hover { border-color: var(--violet-mid); background: var(--violet-soft); }
+.check-item input { width: 16px; height: 16px; accent-color: var(--violet); flex-shrink: 0; cursor: pointer; }
+.check-item.selected { border-color: var(--violet-mid); background: var(--violet-soft); color: var(--royal); }
+
+/* Toggle (yes/no) */
+.toggle-group { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.toggle-btn {
+  padding: 0.6rem 1.5rem;
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.875rem; font-weight: 400;
+  cursor: pointer; background: var(--cream);
+  color: var(--text-body);
+  transition: all 0.2s;
+}
+.toggle-btn:hover { border-color: var(--violet-mid); }
+.toggle-btn.active { background: var(--violet-light); border-color: var(--violet-mid); color: var(--royal); font-weight: 500; }
+
+/* Submit */
+.form-submit {
+  width: 100%; background: var(--royal); color: white; border: none;
+  padding: 1.1rem; border-radius: 100px;
+  font-family: 'Jost', sans-serif; font-size: 1rem; font-weight: 500;
+  cursor: pointer; margin-top: 2rem;
+  transition: background 0.2s, transform 0.15s; letter-spacing: 0.02em;
+}
+.form-submit:hover:not(:disabled) { background: var(--violet); transform: translateY(-1px); }
+.form-submit:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.form-note { font-size: 0.775rem; color: var(--text-light); text-align: center; margin-top: 0.75rem; line-height: 1.5; }
+
+/* Error / Success */
+.form-error { background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 0.75rem 1rem; font-size: 0.85rem; color: #dc2626; margin-bottom: 1.25rem; display: none; }
+.form-error.visible { display: block; }
+
+.form-success { display: none; text-align: center; padding: 3rem 1rem; }
+.form-success.visible { display: block; }
+.success-icon { width: 72px; height: 72px; border-radius: 50%; background: var(--success-light); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; }
+.success-icon svg { width: 32px; height: 32px; stroke: var(--success); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.form-success h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--royal); margin-bottom: 0.75rem; }
+.form-success p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; max-width: 400px; margin: 0 auto; }
+
+/* Required star */
+.req { color: var(--gold); margin-left: 2px; }
+
+/* Section divider */
+.section-gap { margin-top: 2rem; }
+
+footer { background: var(--royal); padding: 2.5rem; text-align: center; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-weight: 600; color: white; margin-bottom: 0.4rem; }
+.footer-copy { font-size: 0.775rem; color: rgba(255,255,255,0.35); }
+.footer-links { display: flex; justify-content: center; gap: 2rem; list-style: none; margin-bottom: 1rem; flex-wrap: wrap; }
+.footer-links a { font-size: 0.825rem; color: rgba(255,255,255,0.6); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--gold); }
+
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<nav role="navigation" aria-label="Main navigation">
+  <a href="/" class="nav-logo" aria-label="Headstrong Haven home">
+    <img src="logo.png" alt="Headstrong Haven" style="height:80px;width:auto;">
+  </a>
+  <ul class="nav-links" role="list">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#how-it-works">How it works</a></li>
+    <li><a href="/#waitlist" class="nav-cta">Join Waitlist</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero" role="banner">
+  <div class="page-hero-inner">
+    <div class="hero-badge">For Mental Health Professionals</div>
+    <h1>Join the <em>Haven</em> provider network</h1>
+    <p>Connect with clients who are actively seeking support and are matched specifically to your specialties, availability, and approach.</p>
+  </div>
+</div>
+
+<!-- BENEFITS -->
+<div class="benefits-strip" role="region" aria-label="Provider benefits">
+  <div class="benefits-inner">
+    <div class="benefit-item">
+      <div class="benefit-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      </div>
+      <h3>Pre-matched clients</h3>
+      <p>We send you clients who already fit your specialty, availability, and accepted insurance — no cold inquiries.</p>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <h3>No time wasted</h3>
+      <p>Every referral is pre-screened. You only hear from us when we have someone who's a genuine fit.</p>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      </div>
+      <h3>Free to join</h3>
+      <p>No fees, no subscriptions. We're building a network of trusted providers who share our mission.</p>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+<div class="form-page">
+
+  <div class="form-card">
+
+    <div class="form-error" id="form-error" role="alert" aria-live="polite"></div>
+
+    <form id="provider-form" novalidate aria-label="Provider intake form">
+
+      <!-- BASIC INFO -->
+      <p class="form-section-title">Basic Information</p>
+      <p class="form-section-sub">Tell us about you and your practice.</p>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="first-name">First name <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="first-name" name="first_name" placeholder="Jane" required autocomplete="given-name" aria-required="true">
+        </div>
+        <div class="form-field">
+          <label for="last-name">Last name <span class="req" aria-hidden="true">*</span></label>
+          <input type="text" id="last-name" name="last_name" placeholder="Smith" required autocomplete="family-name" aria-required="true">
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="practice-name">Practice name</label>
+        <input type="text" id="practice-name" name="practice_name" placeholder="Smith Counseling & Wellness">
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="email">Email address <span class="req" aria-hidden="true">*</span></label>
+          <input type="email" id="email" name="email" placeholder="jane@practice.com" required autocomplete="email" aria-required="true">
+        </div>
+        <div class="form-field">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" placeholder="(216) 555-0100" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="zip">Practice ZIP code <span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="zip" name="zip" placeholder="44106" inputmode="numeric" maxlength="5" required aria-required="true">
+      </div>
+
+      <!-- CREDENTIALS -->
+      <p class="form-section-title section-gap">Credentials</p>
+      <p class="form-section-sub">Your licensure and professional background.</p>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="license-type">License type <span class="req" aria-hidden="true">*</span></label>
+          <select id="license-type" name="license_type" required aria-required="true">
+            <option value="">Select…</option>
+            <option value="LPCC">LPCC — Licensed Professional Clinical Counselor</option>
+            <option value="LISW">LISW — Licensed Independent Social Worker</option>
+            <option value="LMFT">LMFT — Licensed Marriage & Family Therapist</option>
+            <option value="Psychologist">Psychologist (PhD/PsyD)</option>
+            <option value="Psychiatrist">Psychiatrist (MD/DO)</option>
+            <option value="LPC">LPC — Licensed Professional Counselor</option>
+            <option value="LSW">LSW — Licensed Social Worker</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label for="years-experience">Years of experience <span class="req" aria-hidden="true">*</span></label>
+          <select id="years-experience" name="years_experience" required aria-required="true">
+            <option value="">Select…</option>
+            <option value="1">Less than 2 years</option>
+            <option value="3">2–5 years</option>
+            <option value="7">6–10 years</option>
+            <option value="15">11–20 years</option>
+            <option value="25">20+ years</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="npi">NPI Number</label>
+          <input type="text" id="npi" name="npi_number" placeholder="1234567890" inputmode="numeric" maxlength="10">
+        </div>
+        <div class="form-field">
+          <label>Board certified?</label>
+          <div class="toggle-group" role="group" aria-label="Board certified">
+            <button type="button" class="toggle-btn" data-field="board_certified" data-value="true">Yes</button>
+            <button type="button" class="toggle-btn" data-field="board_certified" data-value="false">No</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AVAILABILITY -->
+      <p class="form-section-title section-gap">Availability</p>
+      <p class="form-section-sub">Help us understand when and how you work.</p>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label>Accepting new patients?</label>
+          <div class="toggle-group" role="group" aria-label="Accepting new patients">
+            <button type="button" class="toggle-btn" data-field="accepting_patients" data-value="true">Yes</button>
+            <button type="button" class="toggle-btn" data-field="accepting_patients" data-value="false">No — waitlist only</button>
+          </div>
+        </div>
+        <div class="form-field">
+          <label>Available to start now?</label>
+          <div class="toggle-group" role="group" aria-label="Available now">
+            <button type="button" class="toggle-btn" data-field="available_now" data-value="true">Yes</button>
+            <button type="button" class="toggle-btn" data-field="available_now" data-value="false">Not immediately</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Session format</label>
+        <div class="toggle-group" role="group" aria-label="Session format">
+          <button type="button" class="toggle-btn" data-field="session_format" data-value="in-person">In-person only</button>
+          <button type="button" class="toggle-btn" data-field="session_format" data-value="virtual">Virtual only</button>
+          <button type="button" class="toggle-btn" data-field="session_format" data-value="both">Both</button>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="availability-notes">Availability notes <span style="font-weight:300;color:var(--text-light)">(optional)</span></label>
+        <textarea id="availability-notes" name="availability_notes" placeholder="E.g. evenings and weekends, Mon–Thu 9am–5pm…"></textarea>
+      </div>
+
+      <!-- SPECIALTIES -->
+      <p class="form-section-title section-gap">Specialties</p>
+      <p class="form-section-sub">Select all that apply.</p>
+
+      <div class="form-field">
+        <div class="check-group inline" role="group" aria-label="Specialties" id="specialties-group">
+          <label class="check-item"><input type="checkbox" name="specialties" value="Anxiety"> Anxiety</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="Depression"> Depression</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="Trauma/PTSD"> Trauma / PTSD</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="Grief"> Grief & Loss</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="Addiction"> Addiction & Recovery</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="Relationships"> Relationship Issues</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="Child/Teen"> Child & Teen</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="LGBTQ+"> LGBTQ+</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="Eating Disorders"> Eating Disorders</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="OCD"> OCD</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="Bipolar"> Bipolar Disorder</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="Personality Disorders"> Personality Disorders</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="ADHD"> ADHD</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="Autism"> Autism Spectrum</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="Chronic Illness"> Chronic Illness</label>
+          <label class="check-item"><input type="checkbox" name="specialties" value="Veterans"> Veterans & Military</label>
+        </div>
+      </div>
+
+      <!-- CLIENTS SERVED -->
+      <p class="form-section-title section-gap">Clients Served</p>
+      <p class="form-section-sub">Age groups and other details about who you work with.</p>
+
+      <div class="form-field">
+        <label>Age groups served</label>
+        <div class="check-group inline" role="group" aria-label="Age groups">
+          <label class="check-item"><input type="checkbox" name="age_groups" value="Children (under 12)"> Children (under 12)</label>
+          <label class="check-item"><input type="checkbox" name="age_groups" value="Teens (12–17)"> Teens (12–17)</label>
+          <label class="check-item"><input type="checkbox" name="age_groups" value="Adults (18–64)"> Adults (18–64)</label>
+          <label class="check-item"><input type="checkbox" name="age_groups" value="Seniors (65+)"> Seniors (65+)</label>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="languages">Languages spoken</label>
+          <input type="text" id="languages" name="languages" placeholder="e.g. English, Spanish">
+        </div>
+        <div class="form-field">
+          <label for="gender-identity">Your gender identity <span style="font-weight:300;color:var(--text-light)">(optional)</span></label>
+          <select id="gender-identity" name="gender_identity">
+            <option value="">Prefer not to say</option>
+            <option value="Woman">Woman</option>
+            <option value="Man">Man</option>
+            <option value="Non-binary">Non-binary</option>
+            <option value="Other">Other / self-describe</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- FINANCIAL -->
+      <p class="form-section-title section-gap">Financial & Insurance</p>
+      <p class="form-section-sub">This helps us match clients based on budget and coverage.</p>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="session-rate">Session rate (per hour, USD)</label>
+          <input type="number" id="session-rate" name="session_rate" placeholder="150" min="0" max="999">
+        </div>
+        <div class="form-field">
+          <label>Sliding scale available?</label>
+          <div class="toggle-group" role="group" aria-label="Sliding scale">
+            <button type="button" class="toggle-btn" data-field="sliding_scale" data-value="true">Yes</button>
+            <button type="button" class="toggle-btn" data-field="sliding_scale" data-value="false">No</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label>Medicaid / Medicare accepted?</label>
+        <div class="toggle-group" role="group" aria-label="Medicaid Medicare">
+          <button type="button" class="toggle-btn" data-field="medicaid_medicare" data-value="true">Yes</button>
+          <button type="button" class="toggle-btn" data-field="medicaid_medicare" data-value="false">No</button>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="insurance">Insurance accepted <span style="font-weight:300;color:var(--text-light)">(list all, separated by commas)</span></label>
+        <textarea id="insurance" name="insurance_accepted" placeholder="e.g. Aetna, UnitedHealthcare, Medical Mutual, Anthem, out-of-pocket only…"></textarea>
+      </div>
+
+      <button type="submit" class="form-submit" id="submit-btn">Submit Provider Application →</button>
+      <p class="form-note" role="note">Your information is kept private and used only for matching purposes. We'll reach out personally to confirm your listing.</p>
+
+    </form>
+
+    <div class="form-success" id="form-success" role="status" aria-live="polite">
+      <div class="success-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h3>Application received!</h3>
+      <p>Thank you for joining the Headstrong Haven network. We'll review your application and reach out personally within 2 business days.</p>
+    </div>
+
+  </div>
+</div>
+</main>
+
+<footer role="contentinfo">
+  <p class="footer-logo">Headstrong Haven</p>
+  <ul class="footer-links" role="list">
+    <li><a href="/">Home</a></li>
+    <li><a href="mailto:hello@headstronghaven.com">hello@headstronghaven.com</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Headstrong Haven · Cleveland, OH · All rights reserved.</p>
+</footer>
+
+<script>
+  const SUPABASE_URL = 'https://rkzqurxubsslxjnzjwmj.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJrenF1cnh1YnNzbHhqbnpqd21qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NDY3MjgsImV4cCI6MjA5NjMyMjcyOH0.Oev9mYtiUJgsiSFsuieVB6B3bvhKd-RryQK1zXIQ7qc';
+
+  // Toggle buttons
+  const toggleState = {};
+  document.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const field = this.dataset.field;
+      const value = this.dataset.value;
+      // For session_format, allow only one selection; for booleans same
+      document.querySelectorAll(`.toggle-btn[data-field="${field}"]`).forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      toggleState[field] = value === 'true' ? true : value === 'false' ? false : value;
+    });
+  });
+
+  // Checkbox visual feedback
+  document.querySelectorAll('.check-item input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', function() {
+      this.closest('.check-item').classList.toggle('selected', this.checked);
+    });
+  });
+
+  const form = document.getElementById('provider-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const formSuccess = document.getElementById('form-success');
+  const formError = document.getElementById('form-error');
+
+  function showError(msg) {
+    formError.textContent = msg;
+    formError.classList.add('visible');
+    formError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function hideError() { formError.classList.remove('visible'); }
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    hideError();
+
+    const firstName = document.getElementById('first-name').value.trim();
+    const lastName = document.getElementById('last-name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const zip = document.getElementById('zip').value.trim();
+    const licenseType = document.getElementById('license-type').value;
+    const yearsExp = document.getElementById('years-experience').value;
+
+    if (!firstName) { showError('Please enter your first name.'); return; }
+    if (!lastName) { showError('Please enter your last name.'); return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showError('Please enter a valid email address.'); return; }
+    if (!zip) { showError('Please enter your practice ZIP code.'); return; }
+    if (!licenseType) { showError('Please select your license type.'); return; }
+    if (!yearsExp) { showError('Please select your years of experience.'); return; }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+
+    // Collect specialties
+    const specialties = Array.from(document.querySelectorAll('input[name="specialties"]:checked')).map(cb => cb.value).join(', ') || null;
+    const ageGroups = Array.from(document.querySelectorAll('input[name="age_groups"]:checked')).map(cb => cb.value).join(', ') || null;
+
+    const sessionRate = document.getElementById('session-rate').value;
+
+    const payload = {
+      first_name: firstName,
+      last_name: lastName,
+      practice_name: document.getElementById('practice-name').value.trim() || null,
+      email: email,
+      phone: document.getElementById('phone').value.trim() || null,
+      zip: zip,
+      license_type: licenseType,
+      board_certified: toggleState['board_certified'] !== undefined ? toggleState['board_certified'] : null,
+      years_experience: yearsExp ? parseInt(yearsExp) : null,
+      npi_number: document.getElementById('npi').value.trim() || null,
+      accepting_patients: toggleState['accepting_patients'] !== undefined ? toggleState['accepting_patients'] : null,
+      available_now: toggleState['available_now'] !== undefined ? toggleState['available_now'] : null,
+      session_format: toggleState['session_format'] || null,
+      availability_notes: document.getElementById('availability-notes').value.trim() || null,
+      specialties: specialties,
+      age_groups: ageGroups,
+      languages: document.getElementById('languages').value.trim() || null,
+      gender_identity: document.getElementById('gender-identity').value || null,
+      session_rate: sessionRate ? parseInt(sessionRate) : null,
+      sliding_scale: toggleState['sliding_scale'] !== undefined ? toggleState['sliding_scale'] : null,
+      medicaid_medicare: toggleState['medicaid_medicare'] !== undefined ? toggleState['medicaid_medicare'] : null,
+      insurance_accepted: document.getElementById('insurance').value.trim() || null
+    };
+
+    try {
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/providers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        form.style.display = 'none';
+        formSuccess.classList.add('visible');
+        formSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      } else {
+        const err = await response.json();
+        if (err.code === '23505') {
+          showError('This email is already registered. Please contact us at hello@headstronghaven.com if you need to update your listing.');
+        } else {
+          showError('Something went wrong. Please try again or email us at hello@headstronghaven.com');
+        }
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Provider Application →';
+      }
+    } catch (err) {
+      showError('Connection error. Please check your internet and try again.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Provider Application →';
+    }
+  });
+</script>
+
+</body>
+</html>
