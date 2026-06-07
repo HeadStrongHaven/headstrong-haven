@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join as a Provider — Headstrong Haven</title>
+<meta name="description" content="Join the Headstrong Haven provider network and connect with clients who need your support.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --royal: #110266;
+  --violet: #2c0380;
+  --violet-mid: #3d0ab3;
+  --violet-light: #ede8ff;
+  --violet-soft: #f5f2ff;
+  --gold: #a07820;
+  --gold-light: #f9f3e3;
+  --cream: #fdf9f4;
+  --text-dark: #0d0a1a;
+  --text-body: #2d2640;
+  --text-muted: #4a4460;
+  --text-light: #6b6480;
+  --border: rgba(44,3,128,0.18);
+  --border-soft: rgba(44,3,128,0.1);
+  --success: #145a32;
+  --success-light: #d4efdf;
+  --focus-ring: #a07820;
+  --error: #8b1a1a;
+  --error-bg: #fdf0f0;
+  --error-border: #e57373;
+}
+
+html { scroll-behavior: smooth; font-size: 17px; }
+body { font-family: 'Jost', sans-serif; background: var(--cream); color: var(--text-dark); overflow-x: hidden; font-weight: 400; line-height: 1.6; }
+
+.skip-links { position: absolute; top: 0; left: 0; z-index: 9999; }
+.skip-link { position: absolute; left: -999px; top: -999px; background: var(--royal); color: white; padding: 0.75rem 1.5rem; border-radius: 0 0 8px 0; font-family: 'Jost', sans-serif; font-size: 1rem; font-weight: 500; text-decoration: none; white-space: nowrap; }
+.skip-link:focus { left: 0; top: 0; outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+
+:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; border-radius: 4px; }
+a:focus-visible, button:focus-visible { border-radius: 6px; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 0.5rem 2.5rem; display: flex; justify-content: space-between; align-items: center; background: rgba(253,249,244,0.97); backdrop-filter: blur(16px); border-bottom: 2px solid var(--border-soft); }
+.nav-logo { display: flex; align-items: center; text-decoration: none; }
+.nav-links { display: flex; align-items: center; gap: 1.75rem; list-style: none; }
+.nav-links a { font-size: 0.9rem; font-weight: 500; color: var(--text-body); text-decoration: none; padding: 0.5rem 0.25rem; border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; }
+.nav-links a:hover { color: var(--violet); border-bottom-color: var(--violet); }
+.nav-cta { background: var(--royal); color: white !important; padding: 0.6rem 1.4rem; border-radius: 100px; font-weight: 600 !important; border-bottom: none !important; }
+.nav-cta:hover { background: var(--violet) !important; border-bottom: none !important; }
+.nav-menu-btn { display: none; background: none; border: 2px solid var(--border); border-radius: 8px; padding: 0.4rem 0.6rem; cursor: pointer; color: var(--royal); font-size: 1.2rem; }
+@media (max-width: 680px) {
+  .nav-links { display: none; }
+  .nav-links.open { display: flex; flex-direction: column; position: fixed; top: 80px; left: 0; right: 0; background: white; padding: 1.5rem; gap: 1rem; border-bottom: 2px solid var(--border-soft); box-shadow: 0 8px 24px rgba(0,0,0,0.1); z-index: 99; }
+  .nav-menu-btn { display: flex; align-items: center; justify-content: center; }
+  nav { padding: 0.5rem 1.25rem; }
+}
+
+/* PAGE HERO */
+.page-hero { background: linear-gradient(135deg, var(--royal) 0%, var(--violet) 100%); padding: 10rem 2.5rem 5rem; text-align: center; position: relative; overflow: hidden; }
+.page-hero::before { content: ''; position: absolute; top: -30%; right: -10%; width: 500px; height: 500px; border-radius: 50%; background: rgba(255,255,255,0.04); pointer-events: none; }
+.page-hero-inner { max-width: 680px; margin: 0 auto; position: relative; }
+.hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.9); padding: 0.5rem 1.25rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1.5rem; border: 1px solid rgba(255,255,255,0.25); }
+.page-hero h1 { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.5rem, 5vw, 3.8rem); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; color: white; margin-bottom: 1.25rem; }
+.page-hero h1 em { font-style: italic; color: #c9b8ff; }
+.page-hero p { font-size: 1.05rem; color: rgba(255,255,255,0.82); line-height: 1.8; max-width: 520px; margin: 0 auto; }
+
+/* BENEFITS */
+.benefits-strip { background: white; border-bottom: 2px solid var(--border-soft); padding: 3rem 2.5rem; }
+.benefits-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,1fr); gap: 2rem; text-align: center; }
+.benefit-item { padding: 0.5rem 1rem; }
+.benefit-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--violet-light); display: flex; align-items: center; justify-content: center; margin: 0 auto 0.875rem; }
+.benefit-icon svg { width: 24px; height: 24px; stroke: var(--violet); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.benefit-item h3 { font-size: 1rem; font-weight: 600; color: var(--royal); margin-bottom: 0.4rem; }
+.benefit-item p { font-size: 0.875rem; color: var(--text-muted); line-height: 1.6; }
+@media (max-width: 600px) { .benefits-inner { grid-template-columns: 1fr; gap: 1.5rem; } }
+
+/* FORM PAGE */
+.form-page { max-width: 800px; margin: 0 auto; padding: 5rem 2.5rem 6rem; }
+.form-card { background: white; border: 2px solid var(--border); border-radius: 20px; padding: 2.5rem; box-shadow: 0 8px 40px rgba(17,2,102,0.06); }
+
+.form-section-heading { font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; color: var(--royal); margin-bottom: 0.25rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--violet-light); margin-top: 2.5rem; }
+.form-section-heading:first-of-type { margin-top: 0; }
+.form-section-sub { font-size: 0.875rem; color: var(--text-muted); margin-bottom: 1.5rem; margin-top: 0.5rem; line-height: 1.5; }
+.section-gap { margin-top: 2rem; }
+
+.required-note { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1.5rem; }
+.required-note span { color: #8b1a1a; font-weight: 700; }
+
+.form-field { margin-bottom: 1.25rem; }
+.form-field label { display: block; font-size: 0.875rem; font-weight: 600; color: var(--text-dark); margin-bottom: 0.35rem; }
+.field-hint { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.4rem; display: block; line-height: 1.4; }
+.req { color: #8b1a1a; margin-left: 2px; font-weight: 700; }
+
+.form-field input, .form-field select, .form-field textarea {
+  width: 100%; padding: 0.875rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-family: 'Jost', sans-serif; font-size: 1rem; font-weight: 400;
+  color: var(--text-dark); background: white;
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none; min-height: 48px;
+}
+.form-field input:focus, .form-field select:focus, .form-field textarea:focus { border-color: var(--violet-mid); box-shadow: 0 0 0 3px rgba(61,10,179,0.15); }
+.form-field input.error, .form-field select.error { border-color: var(--error-border); background: var(--error-bg); }
+.form-field input::placeholder, .form-field textarea::placeholder { color: var(--text-light); }
+.form-field textarea { resize: vertical; min-height: 80px; }
+.field-error { font-size: 0.82rem; color: var(--error); margin-top: 0.3rem; display: none; font-weight: 500; }
+.field-error.visible { display: block; }
+
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+@media (max-width: 580px) { .form-row { grid-template-columns: 1fr; } }
+
+/* Toggle buttons */
+.toggle-group { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 0.25rem; }
+.toggle-btn {
+  padding: 0.65rem 1.25rem; border: 2px solid var(--border);
+  border-radius: 100px; font-family: 'Jost', sans-serif;
+  font-size: 0.875rem; font-weight: 500; cursor: pointer;
+  background: var(--cream); color: var(--text-body);
+  transition: all 0.2s; min-height: 44px;
+}
+.toggle-btn:hover { border-color: var(--violet-mid); background: var(--violet-soft); }
+.toggle-btn.active { background: var(--violet-light); border-color: var(--violet-mid); color: var(--royal); font-weight: 600; }
+.toggle-btn:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+.toggle-btn[aria-pressed="true"] { background: var(--violet-light); border-color: var(--violet-mid); color: var(--royal); font-weight: 600; }
+
+/* Checkboxes */
+.check-group { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.25rem; }
+.check-group.inline { flex-direction: row; flex-wrap: wrap; gap: 0.5rem; }
+.scrollable-checks::-webkit-scrollbar { width: 6px; }
+.scrollable-checks::-webkit-scrollbar-track { background: transparent; }
+.scrollable-checks::-webkit-scrollbar-thumb { background: var(--violet-light); border-radius: 100px; }
+.scrollable-checks::-webkit-scrollbar-thumb:hover { background: var(--violet-mid); }
+.check-item {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding: 0.6rem 0.9rem; border: 2px solid var(--border);
+  border-radius: 8px; cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  font-size: 0.875rem; color: var(--text-body); background: var(--cream);
+  min-height: 44px;
+}
+.check-item:hover { border-color: var(--violet-mid); background: var(--violet-soft); }
+.check-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--violet); flex-shrink: 0; cursor: pointer; }
+.check-item.selected { border-color: var(--violet-mid); background: var(--violet-soft); color: var(--royal); font-weight: 500; }
+
+/* Submit */
+.form-submit { width: 100%; background: var(--royal); color: white; border: none; padding: 1.1rem; border-radius: 100px; font-family: 'Jost', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 2rem; transition: background 0.2s, transform 0.15s; min-height: 52px; }
+.form-submit:hover:not(:disabled) { background: var(--violet); transform: translateY(-1px); }
+.form-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+.form-submit:focus-visible { outline: 3px solid var(--focus-ring); outline-offset: 3px; }
+
+.form-note { font-size: 0.8rem; color: var(--text-muted); text-align: center; margin-top: 0.875rem; line-height: 1.5; }
+
+.form-error-banner { background: var(--error-bg); border: 2px solid var(--error-border); border-radius: 10px; padding: 0.875rem 1rem; font-size: 0.9rem; color: var(--error); margin-bottom: 1.25rem; display: none; font-weight: 500; }
+.form-error-banner.visible { display: block; }
+
+.form-success { display: none; text-align: center; padding: 3rem 1rem; }
+.form-success.visible { display: block; }
+.success-icon { width: 72px; height: 72px; border-radius: 50%; background: var(--success-light); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; }
+.success-icon svg { width: 32px; height: 32px; stroke: var(--success); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.form-success h3 { font-family: 'Cormorant Garamond', serif; font-size: 2rem; font-weight: 700; color: var(--royal); margin-bottom: 0.75rem; }
+.form-success p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.7; max-width: 400px; margin: 0 auto; }
+
+footer { background: var(--royal); padding: 2.5rem; text-align: center; }
+.footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 700; color: white; margin-bottom: 0.5rem; }
+.footer-links { display: flex; justify-content: center; gap: 2rem; list-style: none; margin-bottom: 1rem; flex-wrap: wrap; }
+.footer-links a { font-size: 0.875rem; color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.2s; padding: 0.25rem; min-height: 44px; display: inline-flex; align-items: center; }
+.footer-links a:hover { color: #e8c660; }
+.footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+
+<nav class="skip-links" aria-label="Skip navigation">
+  <a href="#main-nav" class="skip-link">Skip to navigation</a>
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <a href="#provider-form" class="skip-link">Skip to provider form</a>
+</nav>
+
+<nav id="main-nav" role="navigation" aria-label="Main navigation">
+  <a href="/" class="nav-logo" aria-label="Headstrong Haven — go to homepage">
+    <img src="logo.png" alt="Headstrong Haven" style="height:52px;width:auto;">
+  </a>
+  <button class="nav-menu-btn" aria-expanded="false" aria-controls="nav-menu" aria-label="Open navigation menu">☰</button>
+  <ul class="nav-links" id="nav-menu" role="list">
+    <li><a href="/">Home</a></li>
+    <li><a href="/#how-it-works">How it works</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="why-us.html">Why us</a></li>
+    <li><a href="/#waitlist" class="nav-cta">Join Waitlist</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero" role="banner">
+  <div class="page-hero-inner">
+    <div class="hero-badge" aria-label="This page is for mental health professionals">For Mental Health Professionals</div>
+    <h1>Join the <em>Haven</em> provider network</h1>
+    <p>Connect with clients who are actively seeking support and are matched specifically to your specialties, availability, and approach.</p>
+  </div>
+</div>
+
+<div class="benefits-strip" role="region" aria-label="Benefits of joining the provider network">
+  <div class="benefits-inner">
+    <div class="benefit-item">
+      <div class="benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <h3>Pre-matched clients</h3>
+      <p>We send you clients who already fit your specialty, availability, and accepted insurance — no cold inquiries.</p>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <h3>No time wasted</h3>
+      <p>Every referral is pre-screened. You only hear from us when we have someone who's a genuine fit.</p>
+    </div>
+    <div class="benefit-item">
+      <div class="benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+      <h3>Free to join</h3>
+      <p>No fees, no subscriptions. We're building a network of trusted providers who share our mission.</p>
+    </div>
+  </div>
+</div>
+
+<main id="main">
+<div class="form-page">
+  <div class="form-card">
+
+    <div class="form-error-banner" id="form-error" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+    <form id="provider-form" novalidate aria-label="Provider network application form" aria-describedby="form-intro">
+      <p id="form-intro" style="font-size:0.95rem;color:var(--text-muted);margin-bottom:1.5rem;line-height:1.6;">Complete this form to apply to join the Headstrong Haven provider network. We'll review your application and follow up within 2 business days.</p>
+      <p class="required-note">Fields marked <span aria-hidden="true">*</span><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)">with an asterisk</span> are required.</p>
+
+      <!-- BASIC INFO -->
+      <h2 class="form-section-heading" id="section-basic">Basic Information</h2>
+      <p class="form-section-sub">Tell us about you and your practice.</p>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="first-name">First name <span class="req" aria-label="required">*</span></label>
+          <input type="text" id="first-name" name="first_name" placeholder="Jane" required autocomplete="given-name" aria-required="true" aria-describedby="first-name-error">
+          <span class="field-error" id="first-name-error" role="alert">Please enter your first name.</span>
+        </div>
+        <div class="form-field">
+          <label for="last-name">Last name <span class="req" aria-label="required">*</span></label>
+          <input type="text" id="last-name" name="last_name" placeholder="Smith" required autocomplete="family-name" aria-required="true" aria-describedby="last-name-error">
+          <span class="field-error" id="last-name-error" role="alert">Please enter your last name.</span>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="practice-name">Practice name</label>
+        <input type="text" id="practice-name" name="practice_name" placeholder="Smith Counseling & Wellness">
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="email">Email address <span class="req" aria-label="required">*</span></label>
+          <input type="email" id="email" name="email" placeholder="jane@practice.com" required autocomplete="email" aria-required="true" aria-describedby="email-error">
+          <span class="field-error" id="email-error" role="alert">Please enter a valid email address.</span>
+        </div>
+        <div class="form-field">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" placeholder="(216) 555-0100" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="zip">Practice ZIP code <span class="req" aria-label="required">*</span></label>
+        <input type="text" id="zip" name="zip" placeholder="44106" inputmode="numeric" maxlength="5" required aria-required="true" aria-describedby="zip-error zip-hint">
+        <span class="field-hint" id="zip-hint">Used to match you with nearby clients.</span>
+        <span class="field-error" id="zip-error" role="alert">Please enter your practice ZIP code.</span>
+      </div>
+
+      <!-- CREDENTIALS -->
+      <h2 class="form-section-heading section-gap" id="section-credentials">Credentials</h2>
+      <p class="form-section-sub">Your licensure and professional background. This information will not be publicly displayed without your consent.</p>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="license-type">License type <span class="req" aria-label="required">*</span></label>
+          <select id="license-type" name="license_type" required aria-required="true" aria-describedby="license-error">
+            <option value="">Select your license…</option>
+            <option value="LPCC">LPCC — Licensed Professional Clinical Counselor</option>
+            <option value="LISW">LISW — Licensed Independent Social Worker</option>
+            <option value="LMFT">LMFT — Licensed Marriage & Family Therapist</option>
+            <option value="Psychologist">Psychologist (PhD / PsyD)</option>
+            <option value="Psychiatrist">Psychiatrist (MD / DO)</option>
+            <option value="LPC">LPC — Licensed Professional Counselor</option>
+            <option value="LSW">LSW — Licensed Social Worker</option>
+            <option value="Other">Other</option>
+          </select>
+          <span class="field-error" id="license-error" role="alert">Please select your license type.</span>
+        </div>
+        <div class="form-field">
+          <label for="years-experience">Years of experience <span class="req" aria-label="required">*</span></label>
+          <select id="years-experience" name="years_experience" required aria-required="true" aria-describedby="years-error">
+            <option value="">Select range…</option>
+            <option value="1">Less than 2 years</option>
+            <option value="3">2–5 years</option>
+            <option value="7">6–10 years</option>
+            <option value="15">11–20 years</option>
+            <option value="25">20+ years</option>
+          </select>
+          <span class="field-error" id="years-error" role="alert">Please select your years of experience.</span>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="npi">NPI Number <span style="font-weight:400;color:var(--text-muted)">(optional)</span></label>
+          <span class="field-hint" id="npi-hint">Your 10-digit National Provider Identifier. Used for insurance verification.</span>
+          <input type="text" id="npi" name="npi_number" placeholder="1234567890" inputmode="numeric" maxlength="10" aria-describedby="npi-hint">
+        </div>
+        <div class="form-field">
+          <label id="board-cert-label">Board certified?</label>
+          <div class="toggle-group" role="group" aria-labelledby="board-cert-label">
+            <button type="button" class="toggle-btn" data-field="board_certified" data-value="true" aria-pressed="false">Yes</button>
+            <button type="button" class="toggle-btn" data-field="board_certified" data-value="false" aria-pressed="false">No</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- AVAILABILITY -->
+      <h2 class="form-section-heading section-gap" id="section-availability">Availability</h2>
+      <p class="form-section-sub">Help us understand when and how you work so we can send you the right clients at the right time.</p>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label id="accepting-label">Accepting new patients?</label>
+          <div class="toggle-group" role="group" aria-labelledby="accepting-label">
+            <button type="button" class="toggle-btn" data-field="accepting_patients" data-value="true" aria-pressed="false">Yes</button>
+            <button type="button" class="toggle-btn" data-field="accepting_patients" data-value="false" aria-pressed="false">Waitlist only</button>
+          </div>
+        </div>
+        <div class="form-field">
+          <label id="available-label">Available to start now?</label>
+          <div class="toggle-group" role="group" aria-labelledby="available-label">
+            <button type="button" class="toggle-btn" data-field="available_now" data-value="true" aria-pressed="false">Yes</button>
+            <button type="button" class="toggle-btn" data-field="available_now" data-value="false" aria-pressed="false">Not immediately</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label id="format-label">Session format</label>
+        <span class="field-hint" id="format-hint">Select all that apply to your practice.</span>
+        <div class="toggle-group" role="group" aria-labelledby="format-label" aria-describedby="format-hint">
+          <button type="button" class="toggle-btn" data-field="session_format" data-value="in-person" aria-pressed="false">In-person only</button>
+          <button type="button" class="toggle-btn" data-field="session_format" data-value="virtual" aria-pressed="false">Virtual only</button>
+          <button type="button" class="toggle-btn" data-field="session_format" data-value="both" aria-pressed="false">Both</button>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="availability-notes">Availability notes <span style="font-weight:400;color:var(--text-muted)">(optional)</span></label>
+        <span class="field-hint" id="avail-notes-hint">For example: evenings and weekends only, Monday through Thursday 9am–5pm.</span>
+        <textarea id="availability-notes" name="availability_notes" placeholder="Describe your typical availability…" aria-describedby="avail-notes-hint"></textarea>
+      </div>
+
+      <!-- SPECIALTIES -->
+      <h2 class="form-section-heading section-gap" id="section-specialties">Specialties</h2>
+      <p class="form-section-sub">Select all areas you are trained and experienced in. This is how we match you with the right clients.</p>
+
+      <div class="form-field">
+        <fieldset style="border:none;padding:0;margin:0;">
+          <legend style="font-size:0.875rem;font-weight:600;color:var(--text-dark);margin-bottom:0.75rem;">Areas of specialty <span style="font-weight:400;color:var(--text-muted)">(select all that apply)</span></legend>
+          <div class="check-group inline scrollable-checks" id="specialties-group" style="max-height:280px;overflow-y:auto;padding:0.75rem;background:var(--cream);border:2px solid var(--border-soft);border-radius:14px;">
+            <label class="check-item"><input type="checkbox" name="specialties" value="Anxiety"> Anxiety</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Depression"> Depression</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Trauma or PTSD"> Trauma / PTSD</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Grief or loss"> Grief & Loss</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Relationship issues"> Relationship Issues</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Stress or burnout"> Stress / Burnout</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Addiction or substance use"> Addiction & Recovery</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Eating or body image"> Eating / Body Image</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="OCD"> OCD</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="ADHD"> ADHD</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Bipolar disorder"> Bipolar Disorder</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Identity or self-worth"> Identity / Self-worth</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="LGBTQ+ related"> LGBTQ+</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Family or parenting"> Family / Parenting</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Work or career"> Work / Career</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Chronic illness or pain"> Chronic Illness</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Anger management"> Anger Management</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Life transitions"> Life Transitions</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Loneliness or isolation"> Loneliness / Isolation</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Self-harm"> Self-harm</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Suicidal thoughts"> Suicidal Ideation</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Panic attacks"> Panic Attacks</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Phobias"> Phobias</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Sleep issues"> Sleep Issues</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Sexual or intimacy issues"> Sexual / Intimacy</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Divorce or separation"> Divorce / Separation</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Infertility or pregnancy loss"> Infertility / Pregnancy Loss</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Postpartum mental health"> Postpartum</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Caregiver burnout"> Caregiver Burnout</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Racial or cultural identity"> Racial / Cultural Identity</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Religious or spiritual concerns"> Religion / Spirituality</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Financial stress"> Financial Stress</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Veterans or military"> Veterans & Military</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Autism spectrum"> Autism Spectrum</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Personality disorders"> Personality Disorders</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Schizophrenia or psychosis"> Schizophrenia / Psychosis</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Dissociation"> Dissociation</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Academic or school stress"> School / Academic Stress</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Workplace conflict"> Workplace Conflict</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Social anxiety"> Social Anxiety</label>
+            <label class="check-item"><input type="checkbox" name="specialties" value="Child/Teen"> Child & Teen</label>
+          </div>
+          <p style="font-size:0.78rem;color:var(--text-light);text-align:center;margin-top:0.4rem;font-style:italic;">Scroll to see all options</p>
+        </fieldset>
+      </div>
+
+      <!-- CLIENTS SERVED -->
+      <h2 class="form-section-heading section-gap" id="section-clients">Clients Served</h2>
+      <p class="form-section-sub">Tell us about who you work with so we can make the most accurate matches.</p>
+
+      <div class="form-field">
+        <fieldset style="border:none;padding:0;margin:0;">
+          <legend style="font-size:0.875rem;font-weight:600;color:var(--text-dark);margin-bottom:0.75rem;">Age groups served <span style="font-weight:400;color:var(--text-muted)">(select all that apply)</span></legend>
+          <div class="check-group inline">
+            <label class="check-item"><input type="checkbox" name="age_groups" value="Children (under 12)"> Children (under 12)</label>
+            <label class="check-item"><input type="checkbox" name="age_groups" value="Teens (12–17)"> Teens (12–17)</label>
+            <label class="check-item"><input type="checkbox" name="age_groups" value="Adults (18–64)"> Adults (18–64)</label>
+            <label class="check-item"><input type="checkbox" name="age_groups" value="Seniors (65+)"> Seniors (65+)</label>
+          </div>
+        </fieldset>
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="languages">Languages spoken</label>
+          <span class="field-hint" id="lang-hint">List all languages you can provide services in.</span>
+          <input type="text" id="languages" name="languages" placeholder="e.g. English, Spanish" aria-describedby="lang-hint">
+        </div>
+        <div class="form-field">
+          <label for="gender-identity">Your gender identity <span style="font-weight:400;color:var(--text-muted)">(optional)</span></label>
+          <span class="field-hint" id="gender-hint">Some clients prefer providers who share their gender identity.</span>
+          <select id="gender-identity" name="gender_identity" aria-describedby="gender-hint">
+            <option value="">Prefer not to say</option>
+            <option value="Woman">Woman</option>
+            <option value="Man">Man</option>
+            <option value="Non-binary">Non-binary</option>
+            <option value="Other">Other / self-describe</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- FINANCIAL -->
+      <h2 class="form-section-heading section-gap" id="section-financial">Financial &amp; Insurance</h2>
+      <p class="form-section-sub">This helps us match clients based on budget and coverage — one of the most common barriers to accessing care.</p>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="session-rate">Session rate (USD per hour)</label>
+          <span class="field-hint" id="rate-hint">Your standard out-of-pocket rate before insurance.</span>
+          <input type="number" id="session-rate" name="session_rate" placeholder="150" min="0" max="999" aria-describedby="rate-hint">
+        </div>
+        <div class="form-field">
+          <label id="sliding-label">Sliding scale available?</label>
+          <span class="field-hint" id="sliding-hint">Can you adjust fees based on a client's income?</span>
+          <div class="toggle-group" role="group" aria-labelledby="sliding-label" aria-describedby="sliding-hint">
+            <button type="button" class="toggle-btn" data-field="sliding_scale" data-value="true" aria-pressed="false">Yes</button>
+            <button type="button" class="toggle-btn" data-field="sliding_scale" data-value="false" aria-pressed="false">No</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label id="medicaid-label">Medicaid / Medicare accepted?</label>
+        <div class="toggle-group" role="group" aria-labelledby="medicaid-label">
+          <button type="button" class="toggle-btn" data-field="medicaid_medicare" data-value="true" aria-pressed="false">Yes</button>
+          <button type="button" class="toggle-btn" data-field="medicaid_medicare" data-value="false" aria-pressed="false">No</button>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="insurance">Insurance plans accepted</label>
+        <span class="field-hint" id="insurance-hint">List all plans you accept, separated by commas. Include "out-of-pocket only" if you don't accept insurance.</span>
+        <textarea id="insurance" name="insurance_accepted" placeholder="e.g. Aetna, UnitedHealthcare, Medical Mutual, Anthem, out-of-pocket only…" aria-describedby="insurance-hint"></textarea>
+      </div>
+
+      <button type="submit" class="form-submit" id="submit-btn">Submit Provider Application →</button>
+      <p class="form-note" role="note">Your information is kept private and used only for client matching purposes. We will reach out personally to confirm your listing before you appear in any results.</p>
+
+    </form>
+
+    <div class="form-success" id="form-success" role="status" aria-live="polite" aria-atomic="true">
+      <div class="success-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h3>Application received!</h3>
+      <p>Thank you for joining the Headstrong Haven network. We'll review your application and reach out personally within 2 business days.</p>
+    </div>
+
+  </div>
+</div>
+</main>
+
+<footer role="contentinfo">
+  <p class="footer-logo">Headstrong Haven</p>
+  <ul class="footer-links" role="list">
+    <li><a href="/">Home</a></li>
+    <li><a href="mailto:hello@headstronghaven.com">hello@headstronghaven.com</a></li>
+  </ul>
+  <p class="footer-copy">© 2026 Headstrong Haven · Cleveland, OH · All rights reserved.</p>
+</footer>
+
+<script>
+  const SUPABASE_URL = 'https://rkzqurxubsslxjnzjwmj.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJrenF1cnh1YnNzbHhqbnpqd21qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODA3NDY3MjgsImV4cCI6MjA5NjMyMjcyOH0.Oev9mYtiUJgsiSFsuieVB6B3bvhKd-RryQK1zXIQ7qc';
+
+  // Mobile nav
+  const menuBtn = document.querySelector('.nav-menu-btn');
+  const navMenu = document.getElementById('nav-menu');
+  if (menuBtn) {
+    menuBtn.addEventListener('click', function() {
+      const isOpen = navMenu.classList.toggle('open');
+      this.setAttribute('aria-expanded', isOpen);
+      this.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+      this.textContent = isOpen ? '✕' : '☰';
+    });
+    navMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navMenu.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+        menuBtn.textContent = '☰';
+      });
+    });
+  }
+
+  // Toggle buttons with aria-pressed
+  const toggleState = {};
+  document.querySelectorAll('.toggle-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const field = this.dataset.field;
+      const value = this.dataset.value;
+      document.querySelectorAll(`.toggle-btn[data-field="${field}"]`).forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      this.classList.add('active');
+      this.setAttribute('aria-pressed', 'true');
+      toggleState[field] = value === 'true' ? true : value === 'false' ? false : value;
+    });
+
+    // Keyboard support
+    btn.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        this.click();
+      }
+    });
+  });
+
+  // Checkbox visual feedback
+  document.querySelectorAll('.check-item input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', function() {
+      this.closest('.check-item').classList.toggle('selected', this.checked);
+    });
+  });
+
+  // Form validation
+  const form = document.getElementById('provider-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const formSuccess = document.getElementById('form-success');
+  const formError = document.getElementById('form-error');
+
+  function showBannerError(msg) {
+    formError.textContent = msg;
+    formError.classList.add('visible');
+    formError.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    formError.focus();
+  }
+
+  function hideBannerError() { formError.classList.remove('visible'); }
+
+  function setFieldError(inputId, errorId, show) {
+    const input = document.getElementById(inputId);
+    const error = document.getElementById(errorId);
+    if (!input || !error) return;
+    if (show) {
+      input.classList.add('error');
+      input.setAttribute('aria-invalid', 'true');
+      error.classList.add('visible');
+    } else {
+      input.classList.remove('error');
+      input.removeAttribute('aria-invalid');
+      error.classList.remove('visible');
+    }
+  }
+
+  // Clear field errors on input
+  [['first-name','first-name-error'],['last-name','last-name-error'],['email','email-error'],['zip','zip-error'],['license-type','license-error'],['years-experience','years-error']].forEach(([id, errId]) => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', () => setFieldError(id, errId, false));
+    if (el) el.addEventListener('change', () => setFieldError(id, errId, false));
+  });
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    hideBannerError();
+
+    const firstName = document.getElementById('first-name').value.trim();
+    const lastName = document.getElementById('last-name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const zip = document.getElementById('zip').value.trim();
+    const licenseType = document.getElementById('license-type').value;
+    const yearsExp = document.getElementById('years-experience').value;
+
+    let hasError = false;
+    setFieldError('first-name','first-name-error', !firstName); if (!firstName) hasError = true;
+    setFieldError('last-name','last-name-error', !lastName); if (!lastName) hasError = true;
+    const emailValid = email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    setFieldError('email','email-error', !emailValid); if (!emailValid) hasError = true;
+    setFieldError('zip','zip-error', !zip); if (!zip) hasError = true;
+    setFieldError('license-type','license-error', !licenseType); if (!licenseType) hasError = true;
+    setFieldError('years-experience','years-error', !yearsExp); if (!yearsExp) hasError = true;
+
+    if (hasError) {
+      showBannerError('Please fill in all required fields before submitting.');
+      // Focus first error
+      const firstError = form.querySelector('[aria-invalid="true"]');
+      if (firstError) firstError.focus();
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting…';
+    submitBtn.setAttribute('aria-busy', 'true');
+
+    const specialties = Array.from(document.querySelectorAll('input[name="specialties"]:checked')).map(cb => cb.value).join(', ') || null;
+    const ageGroups = Array.from(document.querySelectorAll('input[name="age_groups"]:checked')).map(cb => cb.value).join(', ') || null;
+    const sessionRate = document.getElementById('session-rate').value;
+
+    const payload = {
+      first_name: firstName,
+      last_name: lastName,
+      practice_name: document.getElementById('practice-name').value.trim() || null,
+      email: email,
+      phone: document.getElementById('phone').value.trim() || null,
+      zip: zip,
+      license_type: licenseType,
+      board_certified: toggleState['board_certified'] !== undefined ? toggleState['board_certified'] : null,
+      years_experience: yearsExp ? parseInt(yearsExp) : null,
+      npi_number: document.getElementById('npi').value.trim() || null,
+      accepting_patients: toggleState['accepting_patients'] !== undefined ? toggleState['accepting_patients'] : null,
+      available_now: toggleState['available_now'] !== undefined ? toggleState['available_now'] : null,
+      session_format: toggleState['session_format'] || null,
+      availability_notes: document.getElementById('availability-notes').value.trim() || null,
+      specialties: specialties,
+      age_groups: ageGroups,
+      languages: document.getElementById('languages').value.trim() || null,
+      gender_identity: document.getElementById('gender-identity').value || null,
+      session_rate: sessionRate ? parseInt(sessionRate) : null,
+      sliding_scale: toggleState['sliding_scale'] !== undefined ? toggleState['sliding_scale'] : null,
+      medicaid_medicare: toggleState['medicaid_medicare'] !== undefined ? toggleState['medicaid_medicare'] : null,
+      insurance_accepted: document.getElementById('insurance').value.trim() || null
+    };
+
+    try {
+      const response = await fetch(`${SUPABASE_URL}/rest/v1/providers`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON_KEY,
+          'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        form.style.display = 'none';
+        formSuccess.classList.add('visible');
+        formSuccess.querySelector('h3').focus();
+      } else {
+        const err = await response.json();
+        if (err.code === '23505') {
+          showBannerError('This email is already registered. Please contact us at hello@headstronghaven.com to update your listing.');
+        } else {
+          showBannerError('Something went wrong. Please try again or email us at hello@headstronghaven.com');
+        }
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Provider Application →';
+        submitBtn.removeAttribute('aria-busy');
+      }
+    } catch (err) {
+      showBannerError('Connection error. Please check your internet and try again.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit Provider Application →';
+      submitBtn.removeAttribute('aria-busy');
+    }
+  });
+</script>
+
+</body>
+</html>
