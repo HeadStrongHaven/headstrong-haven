@@ -279,8 +279,10 @@ async function loadClients(){
   const sel=document.getElementById("clientSel");
   sel.innerHTML='<option value="">Select a client…</option>'+
     clients.map(c=>{
-      const name=fieldOf(c,["name","full_name","first_name","client_name"])||("Client "+String(c.id).slice(0,6));
-      return `<option value="${c.id}">${escapeHtml(name)}</option>`;
+      const nm=fieldOf(c,["first_name","name","full_name","client_name"]);
+      const last=fieldOf(c,["last_name"]);
+      const label=[nm,last].filter(Boolean).join(" ")||("Client "+String(c.id).slice(0,6));
+      return `<option value="${c.id}">${escapeHtml(label)}</option>`;
     }).join("");
 }
 async function loadProviders(){
@@ -290,8 +292,12 @@ async function loadProviders(){
   const sel=document.getElementById("providerSel");
   sel.innerHTML='<option value="">Select a provider…</option>'+
     providers.map(p=>{
-      const name=fieldOf(p,["name","full_name","provider_name","practice_name"])||("Provider "+String(p.id).slice(0,6));
-      return `<option value="${p.id}">${escapeHtml(name)}</option>`;
+      const nm=fieldOf(p,["first_name","name","full_name","provider_name"]);
+      const last=fieldOf(p,["last_name"]);
+      const practice=fieldOf(p,["practice_name"]);
+      let label=[nm,last].filter(Boolean).join(" ")||("Provider "+String(p.id).slice(0,6));
+      if(practice) label+=" — "+practice;
+      return `<option value="${p.id}">${escapeHtml(label)}</option>`;
     }).join("");
 }
 async function loadMatches(){
@@ -313,7 +319,7 @@ function wireForm(){
     flag.className="flag";
     if(!c||!p){flag.textContent="";return;}
     const cIns=fieldOf(c,["insurance","insurance_provider","client_insurance"]);
-    const pIns=fieldOf(p,["insurances","insurance","accepted_insurance","insurances_accepted"]);
+    const pIns=fieldOf(p,["insurance_accepted","insurances","insurance","accepted_insurance","insurances_accepted"]);
     const st=insuranceState(cIns,pIns);
     if(st==="warn"){
       flag.classList.add("bad");
@@ -341,10 +347,12 @@ async function createMatch(){
   const c=clients.find(x=>String(x.id)===cSel.value);
   const p=providers.find(x=>String(x.id)===pSel.value);
   if(!c||!p){toast("Pick a client and a provider");return;}
-  const cName=fieldOf(c,["name","full_name","first_name","client_name"]);
-  const pName=fieldOf(p,["name","full_name","provider_name","practice_name"]);
+  const cName=[fieldOf(c,["first_name","name","full_name","client_name"]),fieldOf(c,["last_name"])].filter(Boolean).join(" ");
+  const pNm=[fieldOf(p,["first_name","name","full_name","provider_name"]),fieldOf(p,["last_name"])].filter(Boolean).join(" ");
+  const practice=fieldOf(p,["practice_name"]);
+  const pName=practice?`${pNm} — ${practice}`:pNm;
   const cIns=fieldOf(c,["insurance","insurance_provider","client_insurance"]);
-  const pIns=fieldOf(p,["insurances","insurance","accepted_insurance","insurances_accepted"]);
+  const pIns=fieldOf(p,["insurance_accepted","insurances","insurance","accepted_insurance","insurances_accepted"]);
 
   const row={
     client_id:c.id, provider_id:p.id,
