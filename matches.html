@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Match Pipeline — Headstrong Haven Admin</title>
+<link rel="icon" href="favicon.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --purple-deep:#110266;
+    --purple:#2c0380;
+    --gold:#d4a017;
+    --ink:#1a1430;
+    --paper:#f7f5fb;
+    --card:#ffffff;
+    --line:#e3def0;
+    --muted:#5d5577;
+    --ok:#1f7a4d;
+    --warn:#b3261e;
+    --warn-bg:#fdeceb;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Inter",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    line-height:1.5;
+  }
+  header{
+    background:var(--purple-deep);
+    color:#fff;
+    padding:18px 24px;
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  }
+  header img{height:34px;width:auto;border-radius:6px;}
+  header h1{font-size:1.15rem;margin:0;font-weight:600;letter-spacing:.2px;}
+  header .spacer{flex:1;}
+  header a{color:#cdbff7;text-decoration:none;font-size:.9rem;font-weight:500;}
+  header a:hover,header a:focus{color:#fff;text-decoration:underline;}
+
+  /* gate */
+  #gate{
+    max-width:380px;margin:14vh auto;background:var(--card);
+    padding:32px;border-radius:14px;border:1px solid var(--line);
+    box-shadow:0 8px 30px rgba(17,2,102,.08);
+  }
+  #gate h2{margin:0 0 6px;color:var(--purple-deep);}
+  #gate p{margin:0 0 18px;color:var(--muted);font-size:.92rem;}
+  label{display:block;font-weight:600;font-size:.85rem;margin-bottom:6px;color:var(--ink);}
+  input,select,textarea{
+    width:100%;padding:11px 12px;border:1px solid var(--line);
+    border-radius:9px;font-size:.95rem;font-family:inherit;background:#fff;color:var(--ink);
+  }
+  input:focus,select:focus,textarea:focus,button:focus-visible{
+    outline:3px solid var(--gold);outline-offset:2px;
+  }
+  textarea{resize:vertical;min-height:64px;}
+  .btn{
+    background:var(--purple);color:#fff;border:0;border-radius:9px;
+    padding:11px 18px;font-weight:600;font-size:.95rem;cursor:pointer;
+  }
+  .btn:hover{background:var(--purple-deep);}
+  .btn.ghost{background:#fff;color:var(--purple);border:1px solid var(--purple);}
+  .btn.ghost:hover{background:#f1ecfb;}
+
+  main{max-width:1080px;margin:0 auto;padding:24px;}
+  .hidden{display:none;}
+
+  .toolbar{
+    display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:16px;margin-bottom:20px;
+  }
+  .toolbar .field{flex:1;min-width:150px;}
+  .toolbar label{margin-bottom:4px;}
+
+  .new-match{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:18px;margin-bottom:24px;
+  }
+  .new-match h2{margin:0 0 14px;color:var(--purple-deep);font-size:1.05rem;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:640px){.grid{grid-template-columns:1fr;}}
+
+  /* insurance flag */
+  .flag{
+    margin-top:10px;padding:10px 12px;border-radius:9px;font-size:.88rem;font-weight:600;
+    display:none;
+  }
+  .flag.bad{display:block;background:var(--warn-bg);color:var(--warn);border:1px solid #f4c4c0;}
+  .flag.good{display:block;background:#e8f5ee;color:var(--ok);border:1px solid #bfe3cd;}
+
+  /* columns */
+  .board{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media(max-width:860px){.board{grid-template-columns:1fr;}}
+  .col h3{
+    font-size:.78rem;text-transform:uppercase;letter-spacing:.7px;
+    color:var(--muted);margin:0 0 10px;font-weight:700;
+  }
+  .col .count{color:var(--purple);}
+  .card-match{
+    background:var(--card);border:1px solid var(--line);border-left:4px solid var(--purple);
+    border-radius:10px;padding:13px 14px;margin-bottom:12px;
+  }
+  .card-match.warn{border-left-color:var(--warn);}
+  .card-match .names{font-weight:600;font-size:.96rem;margin-bottom:3px;}
+  .card-match .arrow{color:var(--muted);font-weight:400;}
+  .card-match .meta{font-size:.8rem;color:var(--muted);margin-bottom:8px;}
+  .card-match .ins-flag{
+    font-size:.76rem;font-weight:700;color:var(--warn);margin-bottom:8px;display:none;
+  }
+  .card-match.warn .ins-flag{display:block;}
+  .card-match .note{font-size:.83rem;color:var(--ink);margin:6px 0 10px;white-space:pre-wrap;}
+  .card-match .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+  .card-match select{width:auto;flex:1;min-width:120px;padding:7px 9px;font-size:.85rem;}
+  .linkbtn{background:none;border:0;color:var(--warn);cursor:pointer;font-size:.8rem;text-decoration:underline;padding:4px;}
+  .linkbtn.copy{color:var(--purple);}
+  .empty{color:var(--muted);font-size:.85rem;font-style:italic;padding:8px 0;}
+  .toast{
+    position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+    background:var(--ink);color:#fff;padding:11px 18px;border-radius:9px;
+    font-size:.9rem;opacity:0;transition:opacity .2s;pointer-events:none;z-index:50;
+  }
+  .toast.show{opacity:1;}
+  .status-msg{font-size:.85rem;color:var(--muted);margin:10px 0;}
+</style>
+</head>
+<body>
+
+<header>
+  <img src="logo.png" alt="">
+  <h1>Match Pipeline</h1>
+  <span class="spacer"></span>
+  <a href="admin.html">← Back to admin</a>
+</header>
+
+<!-- ============ PASSWORD GATE ============ -->
+<section id="gate">
+  <h2>Admin access</h2>
+  <p>Enter the dashboard password to continue.</p>
+  <label for="pw">Password</label>
+  <input type="password" id="pw" autocomplete="current-password">
+  <p id="gateErr" class="status-msg" style="color:var(--warn);min-height:1em;"></p>
+  <button class="btn" id="gateBtn" style="width:100%;">Unlock</button>
+</section>
+
+<!-- ============ APP ============ -->
+<main id="app" class="hidden">
+
+  <!-- new match -->
+  <section class="new-match">
+    <h2>Create a match</h2>
+    <div class="grid">
+      <div>
+        <label for="clientSel">Client (from waitlist)</label>
+        <select id="clientSel"><option value="">Loading…</option></select>
+      </div>
+      <div>
+        <label for="providerSel">Provider</label>
+        <select id="providerSel"><option value="">Loading…</option></select>
+      </div>
+    </div>
+    <div id="insFlag" class="flag" role="status" aria-live="polite"></div>
+    <div style="margin-top:14px;">
+      <label for="noteInput">Matching note (why this pairing)</label>
+      <textarea id="noteInput" placeholder="e.g. Both prefer evening telehealth; provider specializes in postpartum anxiety."></textarea>
+    </div>
+    <div style="margin-top:14px;">
+      <button class="btn" id="createBtn">Create match</button>
+    </div>
+  </section>
+
+  <!-- filters -->
+  <div class="toolbar">
+    <div class="field">
+      <label for="fSearch">Search name</label>
+      <input id="fSearch" placeholder="client or provider…">
+    </div>
+    <div class="field">
+      <label for="fIns">Insurance flag</label>
+      <select id="fIns">
+        <option value="">All</option>
+        <option value="warn">Mismatch only</option>
+        <option value="ok">Covered only</option>
+      </select>
+    </div>
+    <div class="field" style="flex:0;">
+      <button class="btn ghost" id="refreshBtn">Refresh</button>
+    </div>
+  </div>
+
+  <p id="statusMsg" class="status-msg" aria-live="polite"></p>
+
+  <!-- board -->
+  <div class="board" id="board"></div>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// ===================================================================
+//  CONFIG — paste the SAME values you use on your other pages
+// ===================================================================
+const SUPABASE_URL = "PASTE_YOUR_SUPABASE_URL_HERE";
+const SUPABASE_ANON_KEY = "PASTE_YOUR_SUPABASE_ANON_KEY_HERE";
+const ADMIN_PASSWORD = "CHANGE_ME";   // set this; matches your admin.html password
+// ===================================================================
+
+const STATUSES = [
+  {key:"proposed",     label:"Proposed"},
+  {key:"introduced",   label:"Introduced"},
+  {key:"connected",    label:"Connected"},
+  {key:"active",       label:"Active"},
+  {key:"closed_success",label:"Closed — success"},
+  {key:"closed_nofit", label:"Closed — not a fit"},
+];
+const COLS = [
+  {title:"Proposed / Introduced", keys:["proposed","introduced"]},
+  {title:"Connected / Active",    keys:["connected","active"]},
+  {title:"Closed",                keys:["closed_success","closed_nofit"]},
+];
+
+let sb, clients=[], providers=[], matches=[];
+
+// ---------- helpers ----------
+function toast(msg){
+  const t=document.getElementById("toast");
+  t.textContent=msg; t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2200);
+}
+// crude but useful: does provider's insurance text contain the client's insurance?
+function insuranceState(clientIns, providerIns){
+  if(!clientIns) return "unknown";
+  if(!providerIns) return "unknown";
+  const c = clientIns.toLowerCase().trim();
+  const p = providerIns.toLowerCase();
+  // also accept "self-pay"/"private pay" as always-covered
+  if(c.includes("self") || c.includes("private") || c.includes("out of pocket")) return "ok";
+  return p.includes(c) ? "ok" : "warn";
+}
+function fieldOf(obj, names){
+  for(const n of names){ if(obj && obj[n]!=null && obj[n]!=="") return obj[n]; }
+  return "";
+}
+
+// ---------- gate ----------
+function unlock(){
+  const val=document.getElementById("pw").value;
+  if(val===ADMIN_PASSWORD){
+    document.getElementById("gate").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+    init();
+  }else{
+    document.getElementById("gateErr").textContent="Incorrect password.";
+  }
+}
+document.getElementById("gateBtn").addEventListener("click",unlock);
+document.getElementById("pw").addEventListener("keydown",e=>{if(e.key==="Enter")unlock();});
+
+// ---------- init ----------
+async function init(){
+  if(SUPABASE_URL.startsWith("PASTE")){
+    document.getElementById("statusMsg").textContent =
+      "Add your Supabase URL and anon key in the CONFIG block at the top of this file.";
+    return;
+  }
+  sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  await Promise.all([loadClients(), loadProviders()]);
+  await loadMatches();
+  wireForm();
+}
+
+async function loadClients(){
+  const {data,error}=await sb.from("waitlist").select("*").order("created_at",{ascending:false});
+  if(error){toast("Couldn't load waitlist");return;}
+  clients=data||[];
+  const sel=document.getElementById("clientSel");
+  sel.innerHTML='<option value="">Select a client…</option>'+
+    clients.map(c=>{
+      const name=fieldOf(c,["name","full_name","first_name","client_name"])||("Client "+String(c.id).slice(0,6));
+      return `<option value="${c.id}">${escapeHtml(name)}</option>`;
+    }).join("");
+}
+async function loadProviders(){
+  const {data,error}=await sb.from("providers").select("*").order("created_at",{ascending:false});
+  if(error){toast("Couldn't load providers");return;}
+  providers=data||[];
+  const sel=document.getElementById("providerSel");
+  sel.innerHTML='<option value="">Select a provider…</option>'+
+    providers.map(p=>{
+      const name=fieldOf(p,["name","full_name","provider_name","practice_name"])||("Provider "+String(p.id).slice(0,6));
+      return `<option value="${p.id}">${escapeHtml(name)}</option>`;
+    }).join("");
+}
+async function loadMatches(){
+  const {data,error}=await sb.from("matches").select("*").order("created_at",{ascending:false});
+  if(error){document.getElementById("statusMsg").textContent="Couldn't load matches: "+error.message;return;}
+  matches=data||[];
+  render();
+}
+
+// ---------- live insurance flag on the create form ----------
+function wireForm(){
+  const cSel=document.getElementById("clientSel");
+  const pSel=document.getElementById("providerSel");
+  const flag=document.getElementById("insFlag");
+
+  function update(){
+    const c=clients.find(x=>String(x.id)===cSel.value);
+    const p=providers.find(x=>String(x.id)===pSel.value);
+    flag.className="flag";
+    if(!c||!p){flag.textContent="";return;}
+    const cIns=fieldOf(c,["insurance","insurance_provider","client_insurance"]);
+    const pIns=fieldOf(p,["insurances","insurance","accepted_insurance","insurances_accepted"]);
+    const st=insuranceState(cIns,pIns);
+    if(st==="warn"){
+      flag.classList.add("bad");
+      flag.textContent=`⚠ Insurance mismatch: client has "${cIns}", which isn't listed in this provider's accepted insurance.`;
+    }else if(st==="ok"){
+      flag.classList.add("good");
+      flag.textContent="✓ Insurance looks covered.";
+    }else{
+      flag.textContent="Insurance info incomplete on one side — verify manually.";
+      flag.style.display="block";flag.style.background="#f3f0fb";flag.style.color="var(--muted)";
+    }
+  }
+  cSel.addEventListener("change",update);
+  pSel.addEventListener("change",update);
+
+  document.getElementById("createBtn").addEventListener("click",createMatch);
+  document.getElementById("refreshBtn").addEventListener("click",async()=>{await loadMatches();toast("Refreshed");});
+  document.getElementById("fSearch").addEventListener("input",render);
+  document.getElementById("fIns").addEventListener("change",render);
+}
+
+async function createMatch(){
+  const cSel=document.getElementById("clientSel");
+  const pSel=document.getElementById("providerSel");
+  const c=clients.find(x=>String(x.id)===cSel.value);
+  const p=providers.find(x=>String(x.id)===pSel.value);
+  if(!c||!p){toast("Pick a client and a provider");return;}
+  const cName=fieldOf(c,["name","full_name","first_name","client_name"]);
+  const pName=fieldOf(p,["name","full_name","provider_name","practice_name"]);
+  const cIns=fieldOf(c,["insurance","insurance_provider","client_insurance"]);
+  const pIns=fieldOf(p,["insurances","insurance","accepted_insurance","insurances_accepted"]);
+
+  const row={
+    client_id:c.id, provider_id:p.id,
+    client_name:cName, provider_name:pName,
+    client_insurance:cIns, provider_insurances:pIns,
+    status:"proposed",
+    notes:document.getElementById("noteInput").value.trim()
+  };
+  const {error}=await sb.from("matches").insert(row);
+  if(error){toast("Save failed: "+error.message);return;}
+  document.getElementById("noteInput").value="";
+  cSel.value="";pSel.value="";
+  document.getElementById("insFlag").className="flag";
+  await loadMatches();
+  toast("Match created");
+}
+
+async function updateStatus(id,status){
+  const {error}=await sb.from("matches").update({status}).eq("id",id);
+  if(error){toast("Update failed");return;}
+  await loadMatches();
+  toast("Status updated");
+}
+async function deleteMatch(id){
+  if(!confirm("Delete this match? This can't be undone."))return;
+  const {error}=await sb.from("matches").delete().eq("id",id);
+  if(error){toast("Delete failed");return;}
+  await loadMatches();
+  toast("Match deleted");
+}
+
+// ---------- render ----------
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]));}
+
+function render(){
+  const search=document.getElementById("fSearch").value.toLowerCase().trim();
+  const insFilter=document.getElementById("fIns").value;
+  const board=document.getElementById("board");
+
+  const filtered=matches.filter(m=>{
+    const hay=((m.client_name||"")+" "+(m.provider_name||"")).toLowerCase();
+    if(search && !hay.includes(search))return false;
+    const st=insuranceState(m.client_insurance,m.provider_insurances);
+    if(insFilter==="warn" && st!=="warn")return false;
+    if(insFilter==="ok" && st!=="ok")return false;
+    return true;
+  });
+
+  document.getElementById("statusMsg").textContent =
+    `${filtered.length} of ${matches.length} match${matches.length===1?"":"es"} shown.`;
+
+  board.innerHTML=COLS.map(col=>{
+    const items=filtered.filter(m=>col.keys.includes(m.status));
+    const cards=items.map(cardHtml).join("") ||
+      `<p class="empty">Nothing here yet.</p>`;
+    return `<div class="col">
+      <h3>${col.title} <span class="count">(${items.length})</span></h3>
+      ${cards}
+    </div>`;
+  }).join("");
+
+  // wire per-card controls
+  board.querySelectorAll("select[data-id]").forEach(sel=>{
+    sel.addEventListener("change",e=>updateStatus(e.target.dataset.id,e.target.value));
+  });
+  board.querySelectorAll(".del[data-id]").forEach(b=>{
+    b.addEventListener("click",e=>deleteMatch(e.target.dataset.id));
+  });
+  board.querySelectorAll(".copy[data-id]").forEach(b=>{
+    b.addEventListener("click",e=>{
+      const m=matches.find(x=>String(x.id)===e.target.dataset.id);
+      const txt=`Match: ${m.client_name} ↔ ${m.provider_name}\nStatus: ${m.status}\nNote: ${m.notes||"—"}`;
+      navigator.clipboard.writeText(txt).then(()=>toast("Copied to clipboard"));
+    });
+  });
+}
+
+function cardHtml(m){
+  const st=insuranceState(m.client_insurance,m.provider_insurances);
+  const warn=st==="warn";
+  const opts=STATUSES.map(s=>
+    `<option value="${s.key}" ${s.key===m.status?"selected":""}>${s.label}</option>`).join("");
+  return `<div class="card-match ${warn?"warn":""}">
+    <div class="names">${escapeHtml(m.client_name||"Client")} <span class="arrow">↔</span> ${escapeHtml(m.provider_name||"Provider")}</div>
+    <div class="meta">${escapeHtml(m.client_insurance||"no insurance noted")}</div>
+    <div class="ins-flag">⚠ Insurance not accepted by this provider — verify before introducing.</div>
+    ${m.notes?`<div class="note">${escapeHtml(m.notes)}</div>`:""}
+    <div class="row">
+      <select data-id="${m.id}" aria-label="Update status">${opts}</select>
+      <button class="linkbtn copy" data-id="${m.id}">Copy</button>
+      <button class="linkbtn del" data-id="${m.id}">Delete</button>
+    </div>
+  </div>`;
+}
+</script>
+</body>
+</html>
